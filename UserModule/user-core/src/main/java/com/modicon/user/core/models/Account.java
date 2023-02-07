@@ -1,5 +1,6 @@
 package com.modicon.user.core.models;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -19,5 +20,6 @@ public class Account {
     @Size(min = 7, message = "username must have a minimum of 7 characters")
     private String password;
     @NotNull(message = "specify at least 1 role")
+    @Valid
     private List<Role> roles;
 }
