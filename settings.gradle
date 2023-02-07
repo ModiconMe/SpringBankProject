@@ -1,0 +1,18 @@
+pluginManagement {
+    plugins {
+        id 'java'
+        id 'org.springframework.boot' version "${springBootVersion}"
+        id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    }
+}
+
+rootProject.name = 'SpringBankProject'
+
+include 'UserModule'
+include 'UserModule:user-core'
+include 'UserModule:user-query-api'
+include 'UserModule:user-command-api'
+findProject(':UserModule:user-core')?.name = 'user-core'
+findProject(':UserModule:user-query-api')?.name = 'user-query-api'
+findProject(':UserModule:user-command-api')?.name = 'user-command-api'
+
