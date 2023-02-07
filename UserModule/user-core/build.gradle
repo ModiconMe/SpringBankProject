@@ -16,6 +16,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}"
 
+    implementation "org.axonframework:axon-spring-boot-starter:${axonVersion}"
+    implementation "org.axonframework.extensions.mongo:axon-mongo:${axonMongoVersion}"
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
@@ -24,4 +27,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+tasks {
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+    }
 }
