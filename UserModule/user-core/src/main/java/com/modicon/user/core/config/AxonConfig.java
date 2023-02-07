@@ -62,36 +62,20 @@ public class AxonConfig {
                 .build();
     }
 
-//    @Bean
-//    public EventStorageEngine storageEngine(MongoClient mongoClient) {
-//        return MongoEventStorageEngine.builder()
-//                .mongoTemplate(DefaultMongoTemplate.builder()
-//                        .mongoDatabase(mongoClient)
-//                        .build()
-//                ).build();
-//    }
-
-//
-//    @Bean
-//    public EmbeddedEventStore eventStore(EventStorageEngine storageEngine, SpringConfigurer configuration) {
-//        return EmbeddedEventStore.builder()
-//                .storageEngine(storageEngine)
-//                .messageMonitor(configuration.configureMessageMonitor(EventStore.class, "eventStore", messageMonitorFactory()))
-//                .messageMonitor(configuration.configureMessageMonitor())
-//                .build();
-//    }
-
-    public void configureMongoEventStorage(Configurer configurer, MongoTemplate mongoTemplate) {
-        configurer.configureEmbeddedEventStore(
-                config -> MongoEventStorageEngine.builder()
-                        .mongoTemplate(mongoTemplate)
-                        .build()
-        );
+    @Bean
+    public EventStore eventStore(EventStorageEngine storageEngine) {
+        return EmbeddedEventStore.builder()
+                .storageEngine(storageEngine)
+                .build();
     }
 
-//    @Bean
-//    public MessageMonitorFactory messageMonitorFactory() {
-//        return (configuration, componentType, componentName) -> new MultiMessageMonitor<>();
-//    }
+    @Bean
+    public EventStorageEngine storageEngine(MongoClient client) {
+        return MongoEventStorageEngine.builder()
+                .mongoTemplate(DefaultMongoTemplate.builder()
+                        .mongoDatabase(client)
+                        .build())
+                .build();
+    }
 
 }
