@@ -18,10 +18,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private String id;
-    @NotEmpty(message = "firstName is mandatory")
+    @NotEmpty(message = "firstName is empty")
     private String firstName;
-    @NotEmpty(message = "lastName is mandatory")
+    @NotEmpty(message = "lastName is empty")
     private String lastName;
+    @NotEmpty(message = "email is empty")
     @Email(message = "please provide a valid email address")
     private String email;
     @NotNull(message = "please provide account credentials")
