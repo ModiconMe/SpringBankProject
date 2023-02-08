@@ -32,7 +32,7 @@ public interface UserCommandController {
     }
 
     @RestController
-    class RegisterUserController extends CommandController implements Register {
+    class RegisterUserController extends AbstractCommandController implements Register {
 
         public RegisterUserController(CommandGateway commandGateway) {
             super(commandGateway);
@@ -46,7 +46,7 @@ public interface UserCommandController {
     }
 
     @RestController
-    class UpdateUserController extends CommandController implements Update {
+    class UpdateUserController extends AbstractCommandController implements Update {
 
         public UpdateUserController(CommandGateway commandGateway) {
             super(commandGateway);
@@ -61,7 +61,7 @@ public interface UserCommandController {
     }
 
     @RestController
-    class RemoveUserController extends CommandController implements Remove {
+    class RemoveUserController extends AbstractCommandController implements Remove {
 
         public RemoveUserController(CommandGateway commandGateway) {
             super(commandGateway);
