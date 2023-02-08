@@ -27,7 +27,7 @@ public class RegisterUserController {
         command.setId(id);
 
         try {
-            commandGateway.send(command);
+            commandGateway.sendAndWait(command);
             return new ResponseEntity<>(new RegisterUserResponse(id, "User successfully registered"), HttpStatus.CREATED);
         } catch (Exception e) {
             var sageErrorMessage = "Error while processing register user request for id - " + command.getId();

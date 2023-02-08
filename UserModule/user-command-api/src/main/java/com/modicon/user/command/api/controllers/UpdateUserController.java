@@ -22,7 +22,7 @@ public class UpdateUserController {
     @PutMapping
     public ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserCommand command) {
         try {
-            commandGateway.send(command);
+            commandGateway.sendAndWait(command);
             return new ResponseEntity<>(new UpdateUserResponse(command.getId(), "User successfully updated"), HttpStatus.OK);
         } catch (Exception e) {
             var sageErrorMessage = "Error while processing update user request for id - " + command.getId();

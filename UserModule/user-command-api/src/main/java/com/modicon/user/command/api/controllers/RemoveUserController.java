@@ -23,7 +23,7 @@ public class RemoveUserController {
     @DeleteMapping
     public ResponseEntity<RemoveUserResponse> removeUser(@Valid @RequestBody RemoveUserCommand command) {
         try {
-            commandGateway.send(command);
+            commandGateway.sendAndWait(command);
             return new ResponseEntity<>(new RemoveUserResponse(command.getId(), "User successfully updated"), HttpStatus.OK);
         } catch (Exception e) {
             var sageErrorMessage = "Error while processing update user request for id - " + command.getId();
