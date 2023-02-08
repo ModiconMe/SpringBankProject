@@ -30,7 +30,7 @@ public class RegisterUserController {
             commandGateway.send(command);
             return new ResponseEntity<>(new RegisterUserResponse(id, "User successfully registered"), HttpStatus.CREATED);
         } catch (Exception e) {
-            var sageErrorMessage = "Error while priccesing register user request for id - " + command.getId();
+            var sageErrorMessage = "Error while processing register user request for id - " + command.getId();
             System.out.println(e);
             return new ResponseEntity<>(new RegisterUserResponse(id, sageErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
         }
