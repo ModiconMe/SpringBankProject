@@ -1,4 +1,4 @@
-package com.modicon.user.command.api.dto;
+package com.modicon.user.core.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

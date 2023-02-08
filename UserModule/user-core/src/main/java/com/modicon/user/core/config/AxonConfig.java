@@ -2,6 +2,7 @@ package com.modicon.user.core.config;
 
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
+import com.thoughtworks.xstream.XStream;
 import org.axonframework.config.Configurer;
 import org.axonframework.config.MessageMonitorFactory;
 import org.axonframework.eventhandling.tokenstore.TokenStore;
@@ -78,4 +79,12 @@ public class AxonConfig {
                 .build();
     }
 
+    @Bean
+    public XStream xStream() {
+        XStream xStream = new XStream();
+        xStream.allowTypesByWildcard(new String[] {
+                "com.modicon.**"
+        });
+        return xStream;
+    }
 }
