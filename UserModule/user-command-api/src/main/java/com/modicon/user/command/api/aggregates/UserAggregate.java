@@ -32,7 +32,7 @@ public class UserAggregate {
     @CommandHandler
     public UserAggregate(RegisterUserCommand cmd) {
         var newUser = cmd.getUser();
-        newUser.setId(UUID.randomUUID().toString());
+        newUser.setId(cmd.getId());
         var password = newUser.getAccount().getPassword();
         passwordEncoder = new PasswordEncoderImpl();
         var encodedPassword = passwordEncoder.hashPassword(password);
