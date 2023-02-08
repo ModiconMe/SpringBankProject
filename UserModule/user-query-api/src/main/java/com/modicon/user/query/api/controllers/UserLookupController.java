@@ -5,7 +5,6 @@ import com.modicon.user.query.api.queries.FindAllUsersQuery;
 import com.modicon.user.query.api.queries.FindUserByIdQuery;
 import com.modicon.user.query.api.queries.SearchUsersQuery;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.messaging.responsetypes.ResponseType;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
@@ -24,62 +23,38 @@ public class UserLookupController {
 
     @GetMapping
     public ResponseEntity<UserLookupResponse> getAllUsers() {
-        try {
+        UserLookupResponse response = queryGateway.query(new FindAllUsersQuery(),
+                ResponseTypes.instanceOf(UserLookupResponse.class)).join();
 
-            FindAllUsersQuery query = new FindAllUsersQuery();
-            UserLookupResponse response = queryGateway.query(query, ResponseTypes.instanceOf(UserLookupResponse.class)).join();
-
-            if (response == null || response.isUsersNullOrEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            var safeErrorMessage = "Failed to complete get all user request";
-            System.out.println(e);
-
-            return new ResponseEntity<>(new UserLookupResponse(safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        if (response == null || response.isUsersNullOrEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/byId/{id}")
     public ResponseEntity<UserLookupResponse> getUserById(@PathVariable String id) {
-        try {
+        UserLookupResponse response = queryGateway.query(new FindUserByIdQuery(id),
+                ResponseTypes.instanceOf(UserLookupResponse.class)).join();
 
-            FindUserByIdQuery query = new FindUserByIdQuery(id);
-            UserLookupResponse response = queryGateway.query(query, ResponseTypes.instanceOf(UserLookupResponse.class)).join();
-
-            if (response == null || response.isUsersNullOrEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            var safeErrorMessage = "Failed to complete get user by ID request";
-            System.out.println(e);
-
-            return new ResponseEntity<>(new UserLookupResponse(safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        if (response == null || response.isUsersNullOrEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/byFilter/{regex}")
     public ResponseEntity<UserLookupResponse> searchUsersByFilter(@PathVariable String regex) {
-        try {
+        UserLookupResponse response = queryGateway.query(new SearchUsersQuery(regex),
+                ResponseTypes.instanceOf(UserLookupResponse.class)).join();
 
-            SearchUsersQuery query = new SearchUsersQuery(regex);
-            UserLookupResponse response = queryGateway.query(query, ResponseTypes.instanceOf(UserLookupResponse.class)).join();
-
-            if (response == null || response.isUsersNullOrEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            var safeErrorMessage = "Failed to complete get user by regex request";
-            System.out.println(e);
-
-            return new ResponseEntity<>(new UserLookupResponse(safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        if (response == null || response.isUsersNullOrEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
