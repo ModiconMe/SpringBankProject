@@ -7,7 +7,6 @@ import com.modicon.user.command.api.dto.RegisterUserResponse;
 import com.modicon.user.command.api.dto.RemoveUserResponse;
 import com.modicon.user.command.api.dto.UpdateUserResponse;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +31,12 @@ public interface UserCommandController {
         ResponseEntity<RemoveUserResponse> removeUser(@Valid @RequestBody RemoveUserCommand command);
     }
 
-    @RequiredArgsConstructor
     @RestController
-    class RegisterUserController implements Register {
-        private final CommandGateway commandGateway;
+    class RegisterUserController extends CommandController implements Register {
+
+        public RegisterUserController(CommandGateway commandGateway) {
+            super(commandGateway);
+        }
 
         @Override
         public ResponseEntity<RegisterUserResponse> registerUser(@Valid @RequestBody RegisterUserCommand command) {
@@ -44,10 +45,12 @@ public interface UserCommandController {
         }
     }
 
-    @RequiredArgsConstructor
     @RestController
-    class UpdateUserController implements Update {
-        private final CommandGateway commandGateway;
+    class UpdateUserController extends CommandController implements Update {
+
+        public UpdateUserController(CommandGateway commandGateway) {
+            super(commandGateway);
+        }
 
         @Override
         public ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserCommand command) {
@@ -57,10 +60,12 @@ public interface UserCommandController {
         }
     }
 
-    @RequiredArgsConstructor
     @RestController
-    class RemoveUserController implements Remove {
-        private final CommandGateway commandGateway;
+    class RemoveUserController extends CommandController implements Remove {
+
+        public RemoveUserController(CommandGateway commandGateway) {
+            super(commandGateway);
+        }
 
         @Override
         public ResponseEntity<RemoveUserResponse> removeUser(@Valid @RequestBody RemoveUserCommand command) {
