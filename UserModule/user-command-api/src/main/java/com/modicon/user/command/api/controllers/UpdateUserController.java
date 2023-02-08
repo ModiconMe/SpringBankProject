@@ -21,13 +21,7 @@ public class UpdateUserController {
 
     @PutMapping
     public ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserCommand command) {
-        try {
-            commandGateway.sendAndWait(command);
-            return new ResponseEntity<>(new UpdateUserResponse(command.getId(), "User successfully updated"), HttpStatus.OK);
-        } catch (Exception e) {
-            var sageErrorMessage = "Error while processing update user request for id - " + command.getId();
-            System.out.println(e);
-            return new ResponseEntity<>(new UpdateUserResponse(command.getId(), sageErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        commandGateway.sendAndWait(command);
+        return new ResponseEntity<>(new UpdateUserResponse(command.getId(), "User successfully deleted"), HttpStatus.OK);
     }
 }
