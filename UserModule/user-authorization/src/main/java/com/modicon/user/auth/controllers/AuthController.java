@@ -1,5 +1,6 @@
 package com.modicon.user.auth.controllers;
 
+import com.modicon.user.auth.dto.AccessTokenRequest;
 import com.modicon.user.auth.dto.CredentialsRequest;
 import com.modicon.user.auth.dto.CredentialsResponse;
 import com.modicon.user.auth.services.UserService;
@@ -16,6 +17,9 @@ public interface AuthController {
     interface Jwt {
         @GetMapping("/login")
         CredentialsResponse authenticate(@RequestBody CredentialsRequest request);
+
+        @GetMapping("/token")
+        CredentialsResponse refreshAccessToken(@RequestBody AccessTokenRequest request);
     }
 
     @RequiredArgsConstructor
@@ -28,6 +32,11 @@ public interface AuthController {
         @Override
         public CredentialsResponse authenticate(CredentialsRequest request) {
             return userService.loginUser(request);
+        }
+
+        @Override
+        public CredentialsResponse refreshAccessToken(AccessTokenRequest request) {
+            return userService.generateAccessToken(request);
         }
     }
 }

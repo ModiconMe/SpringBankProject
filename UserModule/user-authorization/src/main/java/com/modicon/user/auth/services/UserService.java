@@ -1,9 +1,12 @@
 package com.modicon.user.auth.services;
 
+import com.modicon.user.auth.dto.AccessTokenRequest;
 import com.modicon.user.auth.dto.CredentialsRequest;
 import com.modicon.user.auth.dto.CredentialsResponse;
 import com.modicon.user.auth.security.jwt.JwtGeneration;
 import com.modicon.user.auth.repositories.UserRepository;
+import com.modicon.user.auth.security.jwt.JwtUtils;
+import com.modicon.user.auth.security.jwt.JwtValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,8 @@ public interface UserService {
 
     CredentialsResponse loginUser(CredentialsRequest request);
 
+    CredentialsResponse generateAccessToken(AccessTokenRequest request);
+
     @RequiredArgsConstructor
     @Service
     class Base implements UserService {
@@ -22,6 +27,7 @@ public interface UserService {
         private final UserRepository userRepository;
         private final PasswordEncoder encoder;
         private final JwtGeneration jwtGeneration;
+        private final JwtValidation jwtValidation;
 
         @Override
         public CredentialsResponse loginUser(CredentialsRequest request) {
@@ -38,6 +44,21 @@ public interface UserService {
                     "user successfully authenticated",
                     jwtGeneration.generateAccessToken(account),
                     jwtGeneration.generateRefreshToken(account));
+        }
+
+        @Override
+        public CredentialsResponse generateAccessToken(AccessTokenRequest request) {
+            String refreshToken = request.getRefreshToken();
+            if (jwtValidation.isTokenValid(refreshToken)) {
+                String username = jwtValidation.extractUsername(refreshToken);
+                com.modicon.user.core.models.User user = userRepository.findByUsername(username)
+                        .orElseThrow(() -> exception(HttpStatus.UNAUTHORIZED, "user with username [%s] is not found", username));
+
+                return new CredentialsResponse("Access token was successfully refreshed",
+                        jwtGeneration.generateAccessToken(user.getAccount()),
+                        refreshToken);
+            }
+            throw exception(HttpStatus.UNAUTHORIZED, "provided refresh token is invalid", refreshToken);
         }
     }
 }
