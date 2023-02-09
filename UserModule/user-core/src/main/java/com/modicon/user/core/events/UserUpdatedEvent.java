@@ -1,12 +1,19 @@
 package com.modicon.user.core.events;
 
+import com.modicon.user.core.abstractions.AbstractEvent;
 import com.modicon.user.core.models.User;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Builder
-public class UserUpdatedEvent {
-    private String id;
+@Setter
+@Getter
+public class UserUpdatedEvent extends AbstractEvent {
     private User user;
+
+    public UserUpdatedEvent(String id, User user) {
+        super(id);
+        this.user = user;
+    }
 }

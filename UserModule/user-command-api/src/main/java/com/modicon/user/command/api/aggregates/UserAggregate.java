@@ -38,10 +38,7 @@ public class UserAggregate {
         var encodedPassword = passwordEncoder.hashPassword(password);
 
         newUser.getAccount().setPassword(encodedPassword);
-        var event = UserRegisteredEvent.builder()
-                .id(cmd.getId())
-                .user(newUser)
-                .build();
+        var event = new UserRegisteredEvent(cmd.getId(), newUser);
 
         AggregateLifecycle.apply(event);
     }
@@ -55,18 +52,14 @@ public class UserAggregate {
 
         updatedUser.getAccount().setPassword(encodedPassword);
 
-        var event = UserUpdatedEvent.builder()
-                .id(UUID.randomUUID().toString())
-                .user(updatedUser)
-                .build();
+        var event = new UserUpdatedEvent(UUID.randomUUID().toString(), updatedUser);
 
         AggregateLifecycle.apply(event);
     }
 
     @CommandHandler
     public void handle(RemoveUserCommand cmd) {
-        var event = new UserRemovedEvent();
-        event.setId(cmd.getId());
+        var event = new UserRemovedEvent(cmd.getId());
 
         AggregateLifecycle.apply(event);
     }

@@ -1,8 +1,9 @@
 package com.modicon.user.core.events;
 
-import lombok.Data;
+import com.modicon.user.core.abstractions.AbstractEvent;
 
-@Data
-public class UserRemovedEvent {
-    private String id;
+public class UserRemovedEvent extends AbstractEvent {
+    public UserRemovedEvent(String id) {
+        super(id);
+    }
 }
