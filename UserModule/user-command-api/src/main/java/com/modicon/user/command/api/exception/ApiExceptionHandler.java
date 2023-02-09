@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Objects;
+
 @ControllerAdvice
 public class ApiExceptionHandler {
 
@@ -26,7 +28,7 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<BaseResponse> handle(MethodArgumentNotValidException e) {
-        return new ResponseEntity<>(new BaseResponse(e.getBindingResult().getFieldError().getDefaultMessage()), e.getStatusCode());
+        return new ResponseEntity<>(new BaseResponse(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()), e.getStatusCode());
     }
 
 }
