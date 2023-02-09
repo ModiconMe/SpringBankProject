@@ -1,4 +1,4 @@
-package com.modicon.user.auth.jwt;
+package com.modicon.user.auth.security.jwt;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;

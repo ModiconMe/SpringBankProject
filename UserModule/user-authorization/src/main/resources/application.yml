@@ -7,9 +7,14 @@ spring:
       host: localhost
       port: 27017
       database: user
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8083/issuer
 
 jwt:
-  sign-key: secret-secret-secret-secret-secret-secret
+  sign-key: secretsecretsecretsecretsecretsecret
   token-prefix: Token
   access-valid-time: 1
   refresh-valid-time: 10
