@@ -4,7 +4,6 @@ import com.modicon.user.command.api.commands.RegisterUserCommand;
 import com.modicon.user.command.api.commands.RemoveUserCommand;
 import com.modicon.user.command.api.commands.UpdateUserCommand;
 import com.modicon.user.command.api.security.PasswordEncoder;
-import com.modicon.user.command.api.security.PasswordEncoderImpl;
 import com.modicon.user.core.events.UserRegisteredEvent;
 import com.modicon.user.core.events.UserRemovedEvent;
 import com.modicon.user.core.events.UserUpdatedEvent;
@@ -26,7 +25,7 @@ public class UserAggregate {
     private final PasswordEncoder passwordEncoder;
 
     public UserAggregate() {
-        passwordEncoder = new PasswordEncoderImpl();
+        passwordEncoder = new PasswordEncoder.Base();
     }
 
     @CommandHandler
@@ -34,7 +33,7 @@ public class UserAggregate {
         var newUser = cmd.getUser();
         newUser.setId(cmd.getId());
         var password = newUser.getAccount().getPassword();
-        passwordEncoder = new PasswordEncoderImpl();
+        passwordEncoder = new PasswordEncoder.Base();
         var encodedPassword = passwordEncoder.hashPassword(password);
 
         newUser.getAccount().setPassword(encodedPassword);
