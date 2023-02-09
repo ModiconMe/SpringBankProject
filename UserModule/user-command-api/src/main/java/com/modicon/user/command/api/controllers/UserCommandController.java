@@ -17,22 +17,25 @@ import java.util.UUID;
 
 public interface UserCommandController {
 
+    String BASE_URL_V1 = "/api/v1";
+
     interface Register {
-        @PostMapping("/api/v1/registerUser")
+        @PostMapping("/registerUser")
         ResponseEntity<RegisterUserResponse> registerUser(@Valid @RequestBody RegisterUserCommand command);
     }
 
     interface Update {
-        @PutMapping("/api/v1/updateUser")
+        @PutMapping("/updateUser")
         ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserCommand command);
     }
 
     interface Remove {
-        @DeleteMapping("/api/v1/removeUser")
+        @DeleteMapping("/removeUser")
         ResponseEntity<RemoveUserResponse> removeUser(@Valid @RequestBody RemoveUserCommand command);
     }
 
     @RestController
+    @RequestMapping(BASE_URL_V1)
     class RegisterUserController extends AbstractCommandController implements Register {
 
         public RegisterUserController(CommandGateway commandGateway) {
@@ -48,6 +51,7 @@ public interface UserCommandController {
     }
 
     @RestController
+    @RequestMapping(BASE_URL_V1)
     class UpdateUserController extends AbstractCommandController implements Update {
 
         public UpdateUserController(CommandGateway commandGateway) {
@@ -62,6 +66,7 @@ public interface UserCommandController {
     }
 
     @RestController
+    @RequestMapping(BASE_URL_V1)
     class RemoveUserController extends AbstractCommandController implements Remove {
 
         public RemoveUserController(CommandGateway commandGateway) {
