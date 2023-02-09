@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -26,11 +27,13 @@ public interface UserCommandController {
 
     interface Update {
         @PutMapping("/updateUser")
+        @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
         ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserCommand command);
     }
 
     interface Remove {
         @DeleteMapping("/removeUser")
+        @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
         ResponseEntity<RemoveUserResponse> removeUser(@Valid @RequestBody RemoveUserCommand command);
     }
 

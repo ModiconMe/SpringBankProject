@@ -3,7 +3,6 @@ package com.modicon.user.auth.security.jwt;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;

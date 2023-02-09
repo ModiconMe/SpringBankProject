@@ -9,6 +9,7 @@ import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,15 @@ public interface UserQueryController {
 
     interface Fetch {
         @GetMapping
+        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
         ResponseEntity<UserLookupResponse> getAllUsers();
 
         @GetMapping("/byId/{id}")
+        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
         ResponseEntity<UserLookupResponse> getUserById(@PathVariable String id);
 
         @GetMapping("/byFilter/{regex}")
+        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
         ResponseEntity<UserLookupResponse> searchUsersByFilter(@PathVariable String regex);
     }
 
