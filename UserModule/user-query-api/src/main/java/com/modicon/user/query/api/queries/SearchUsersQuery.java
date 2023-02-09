@@ -1,10 +1,13 @@
 package com.modicon.user.query.api.queries;
 
+import com.modicon.user.query.api.abstractions.AbstractQuery;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
-public class SearchUsersQuery {
+public class SearchUsersQuery extends AbstractQuery {
     private String filter;
 }
