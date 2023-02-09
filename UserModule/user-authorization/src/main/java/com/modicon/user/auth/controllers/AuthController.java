@@ -5,20 +5,17 @@ import com.modicon.user.auth.dto.CredentialsRequest;
 import com.modicon.user.auth.dto.CredentialsResponse;
 import com.modicon.user.auth.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 public interface AuthController {
 
     String BASE_URL = "/api/v1";
 
     interface Jwt {
-        @GetMapping("/login")
+        @PostMapping("/login")
         CredentialsResponse authenticate(@RequestBody CredentialsRequest request);
 
-        @GetMapping("/token")
+        @PostMapping("/token")
         CredentialsResponse refreshAccessToken(@RequestBody AccessTokenRequest request);
     }
 
