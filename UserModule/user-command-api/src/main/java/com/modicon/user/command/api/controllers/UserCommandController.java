@@ -1,5 +1,6 @@
 package com.modicon.user.command.api.controllers;
 
+import com.modicon.user.command.api.abstractions.AbstractCommandController;
 import com.modicon.user.command.api.commands.RegisterUserCommand;
 import com.modicon.user.command.api.commands.RemoveUserCommand;
 import com.modicon.user.command.api.commands.UpdateUserCommand;

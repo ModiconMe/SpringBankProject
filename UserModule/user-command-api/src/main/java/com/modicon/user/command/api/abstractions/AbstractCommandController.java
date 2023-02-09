@@ -1,4 +1,4 @@
-package com.modicon.user.command.api.controllers;
+package com.modicon.user.command.api.abstractions;
 
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
