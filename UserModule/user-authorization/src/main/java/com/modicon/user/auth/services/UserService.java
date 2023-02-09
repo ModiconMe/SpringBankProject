@@ -3,10 +3,10 @@ package com.modicon.user.auth.services;
 import com.modicon.user.auth.dto.AccessTokenRequest;
 import com.modicon.user.auth.dto.CredentialsRequest;
 import com.modicon.user.auth.dto.CredentialsResponse;
-import com.modicon.user.auth.security.jwt.JwtGeneration;
 import com.modicon.user.auth.repositories.UserRepository;
-import com.modicon.user.auth.security.jwt.JwtUtils;
+import com.modicon.user.auth.security.jwt.JwtGeneration;
 import com.modicon.user.auth.security.jwt.JwtValidation;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,7 +49,15 @@ public interface UserService {
         @Override
         public CredentialsResponse generateAccessToken(AccessTokenRequest request) {
             String refreshToken = request.getRefreshToken();
-            if (jwtValidation.isTokenValid(refreshToken)) {
+            boolean isValid;
+            try {
+                 isValid = jwtValidation.isTokenValid(refreshToken);
+            } catch (JwtException e) {
+                e.printStackTrace();
+                throw exception(HttpStatus.UNAUTHORIZED, "provided token is invalid", refreshToken);
+            }
+
+            if (isValid) {
                 String username = jwtValidation.extractUsername(refreshToken);
                 com.modicon.user.core.models.User user = userRepository.findByUsername(username)
                         .orElseThrow(() -> exception(HttpStatus.UNAUTHORIZED, "user with username [%s] is not found", username));
@@ -58,7 +66,7 @@ public interface UserService {
                         jwtGeneration.generateAccessToken(user.getAccount()),
                         refreshToken);
             }
-            throw exception(HttpStatus.UNAUTHORIZED, "provided refresh token is invalid", refreshToken);
+            throw exception(HttpStatus.UNAUTHORIZED, "provided refresh token is expired or owner not found", refreshToken);
         }
     }
 }
