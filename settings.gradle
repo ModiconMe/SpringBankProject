@@ -15,4 +15,6 @@ include 'UserModule:user-command-api'
 findProject(':UserModule:user-core')?.name = 'user-core'
 findProject(':UserModule:user-query-api')?.name = 'user-query-api'
 findProject(':UserModule:user-command-api')?.name = 'user-command-api'
+include 'UserModule:user-authorization'
+findProject(':UserModule:user-authorization')?.name = 'user-authorization'
 
