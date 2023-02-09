@@ -20,9 +20,9 @@ dependencies {
 
     implementation "org.springframework.security.oauth:spring-security-oauth2:${oAuth2Version}"
     implementation "org.springframework.security:spring-security-jwt:${springJWTVersion}"
-    implementation "com.sun.xml.bind:jaxb-core:${jaxbCoreVersion}"
-    implementation "com.sun.xml.bind:jaxb-impl:${jaxbCoreVersion}"
-    implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @ToString
 @Setter
 @Getter
-@Builder
 @Document(collection = "users")
 public class User extends AbstractEntity {
     @NotEmpty(message = "firstName is empty")
