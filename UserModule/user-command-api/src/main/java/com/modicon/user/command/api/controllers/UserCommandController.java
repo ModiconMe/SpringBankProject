@@ -40,6 +40,7 @@ public interface UserCommandController {
 
         @Override
         public ResponseEntity<RegisterUserResponse> registerUser(@Valid @RequestBody RegisterUserCommand command) {
+            command.setId(UUID.randomUUID().toString());
             String id = commandGateway.sendAndWait(command);
             return new ResponseEntity<>(new RegisterUserResponse(id, "User successfully registered"), HttpStatus.CREATED);
         }
@@ -54,7 +55,6 @@ public interface UserCommandController {
 
         @Override
         public ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserCommand command) {
-            command.setId(UUID.randomUUID().toString());
             commandGateway.sendAndWait(command);
             return new ResponseEntity<>(new UpdateUserResponse(command.getId(), "User successfully updated"), HttpStatus.OK);
         }
