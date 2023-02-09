@@ -21,15 +21,15 @@ public interface UserQueryController {
 
     interface Fetch {
         @GetMapping
-        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+//        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
         ResponseEntity<UserLookupResponse> getAllUsers();
 
         @GetMapping("/byId/{id}")
-        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+//        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
         ResponseEntity<UserLookupResponse> getUserById(@PathVariable String id);
 
         @GetMapping("/byFilter/{regex}")
-        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+//        @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
         ResponseEntity<UserLookupResponse> searchUsersByFilter(@PathVariable String regex);
     }
 

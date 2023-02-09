@@ -7,6 +7,29 @@ spring:
       host: localhost
       port: 27017
       database: user
+  security:
+    oauth2:
+      client:
+        registration:
+          api-client-oidc:
+            provider: spring
+            client-id: user-query-api
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8082/login/oauth2/code/{registrationId}"
+            scope: openid
+            client-name: api-client-oidc
+          api-client-authorization-code:
+            provider: spring
+            client-id: user-query-api
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8082/authorized"
+            scope: api.read
+            client-name: api-client-authorization-code
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000
 
 #axon:
 #  serializer:
